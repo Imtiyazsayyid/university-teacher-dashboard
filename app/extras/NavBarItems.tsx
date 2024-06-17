@@ -23,70 +23,17 @@ export interface VerticalNavBarItem {
 
 export const navBarItems: VerticalNavBarItem[] = [
   {
-    route: "/admin",
+    route: "/teacher",
     title: "Home",
-    key: "admin",
+    key: "teacher",
     icon: HomeIcon,
     isOpen: false,
   },
   {
-    route: "/admin/masters",
-    isOpen: false,
-    icon: SlidersHorizontalIcon,
-    title: "Masters",
-    key: "masters",
-    subRoutes: [
-      {
-        route: "/admin/masters/teacher-roles",
-        isOpen: false,
-        key: "teacher-roles",
-        icon: LayoutListIcon,
-        title: "Teacher Roles",
-      },
-      {
-        route: "/admin/masters/student-documents",
-        isOpen: false,
-        key: "student-documents",
-        icon: FilesIcon,
-        title: "Student Documents",
-      },
-    ],
-  },
-  {
-    route: "/admin/users",
-    isOpen: false,
-    icon: UsersIcon,
-    title: "Users",
-    key: "users",
-    subRoutes: [
-      {
-        route: "/admin/users/teachers",
-        isOpen: false,
-        icon: CircleUserRound,
-        title: "Teachers",
-        key: "teachers",
-      },
-      {
-        route: "/admin/users/students",
-        isOpen: false,
-        icon: GraduationCapIcon,
-        title: "Students",
-        key: "students",
-      },
-    ],
-  },
-  {
-    route: "/admin/courses",
+    route: "/teacher/courses",
     title: "Courses",
     icon: LibraryBigIcon,
     key: "courses",
-    isOpen: false,
-  },
-  {
-    route: "/admin/batches",
-    title: "Batches",
-    key: "batches",
-    icon: BlocksIcon,
     isOpen: false,
   },
 ];

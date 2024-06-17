@@ -12,14 +12,14 @@ export default function Home() {
   useEffect(() => {
     const timer = setTimeout(() => setProgress(100), 300);
     if (router) {
-      router.push("/admin");
+      router.push("/teacher");
     }
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <div className="h-full w-full flex flex-col justify-center items-center border">
-      <h1 className="text-4xl font-extrabold lg:text-5xl">Welcome To Admin University.</h1>
+      <h1 className="text-4xl font-extrabold lg:text-5xl">Welcome To Teacher University.</h1>
       <div className="mt-10 w-full flex justify-center">
         <Progress value={progress} className="w-[20%]" />
       </div>

@@ -4,7 +4,7 @@ import { TokenService } from "@/app/Services/StorageService";
 import { loginSchema } from "@/app/validationSchemas";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import AdminServices from "../../Services/AdminServices";
+import TeacherServices from "../../Services/TeacherServices";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,7 +15,7 @@ const LoginPage = () => {
   const [userDetails, setUserDetails] = useState({
     email: "",
     password: "",
-    user_role: "admin",
+    user_role: "teacher",
   });
 
   const [errors, setErrors] = useState({
@@ -46,12 +46,12 @@ const LoginPage = () => {
       return;
     }
 
-    const res = await AdminServices.login(userDetails);
+    const res = await TeacherServices.login(userDetails);
 
     if (res.data.status) {
       const refreshToken = res.data.data;
 
-      const accessTokenResponse = await AdminServices.getAccessToken(refreshToken);
+      const accessTokenResponse = await TeacherServices.getAccessToken(refreshToken);
 
       console.log({ accessTokenResponse });
 

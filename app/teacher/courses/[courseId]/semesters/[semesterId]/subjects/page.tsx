@@ -182,7 +182,6 @@ const SubjectsPage = ({ params }: Props) => {
               <TableHead>Code</TableHead>
               <TableHead>Credits</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -210,21 +209,6 @@ const SubjectsPage = ({ params }: Props) => {
                   ) : (
                     <Badge className="bg-red-500 dark:bg-primary">Inactive</Badge>
                   )}
-                </TableCell>
-                <TableCell>
-                  <div className="flex gap-2">
-                    <DeleteTableAction
-                      action={async () => {
-                        await TeacherServices.deleteSubject(subject.id);
-                        await getAllSubjects();
-                        toast({
-                          title: "Subject Deleted",
-                          description: `'${subject.name}' was permanently deleted from this semester.`,
-                          action: <TrashIcon className="text-red-500" />,
-                        });
-                      }}
-                    />
-                  </div>
                 </TableCell>
               </TableRow>
             ))}

@@ -59,7 +59,7 @@ const LoginPage = () => {
         throw new Error("status false in getting Access Token");
       }
       TokenService.saveAccessToken(accessTokenResponse.data.data);
-      router.push("/admin");
+      router.push("/teacher");
     } else {
       setErrors({
         email: "",

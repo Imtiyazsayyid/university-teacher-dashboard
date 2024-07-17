@@ -25,14 +25,6 @@ export default {
     return await Api().get("/course/" + id);
   },
 
-  async saveCourse(payload) {
-    return await Api().post("/course", payload);
-  },
-
-  async deleteCourse(id) {
-    return await Api().delete("/course/" + id);
-  },
-
   // Semesters
   async getAllSemesters(params) {
     return await Api().get("/semesters", { params });
@@ -42,14 +34,6 @@ export default {
     return await Api().get("/semester/" + id);
   },
 
-  async saveSemester(payload) {
-    return await Api().post("/semester", payload);
-  },
-
-  async deleteSemester(id) {
-    return await Api().delete("/semester/" + id);
-  },
-
   // Subjects
   async getAllSubjects(params) {
     return await Api().get("/subjects", { params });
@@ -57,14 +41,6 @@ export default {
 
   async getSingleSubject(id) {
     return await Api().get("/subject/" + id);
-  },
-
-  async saveSubject(payload) {
-    return await Api().post("/subject", payload);
-  },
-
-  async deleteSubject(id) {
-    return await Api().delete("/subject/" + id);
   },
 
   // Subject Types
@@ -133,14 +109,6 @@ export default {
     return await Api().get("/batch/" + id);
   },
 
-  async saveBatch(payload) {
-    return await Api().post("/batch", payload);
-  },
-
-  async deleteBatch(id) {
-    return await Api().delete("/batch/" + id);
-  },
-
   // Divisions
   async getAllDivisions(params) {
     return await Api().get("/divisions", { params });
@@ -148,14 +116,6 @@ export default {
 
   async getSingleDivision(id) {
     return await Api().get("/division/" + id);
-  },
-
-  async saveDivision(payload) {
-    return await Api().post("/division", payload);
-  },
-
-  async deleteDivision(id) {
-    return await Api().delete("/division/" + id);
   },
 
   // Teacher
@@ -171,17 +131,13 @@ export default {
     return await Api().post("/teacher", payload);
   },
 
-  async deleteTeacher(id) {
-    return await Api().delete("/teacher/" + id);
-  },
-
   // Subject Divison Teachers
-  async getAllDivisionSubjectTeachers(params) {
-    return await Api().get("/division-subject-teachers", { params });
+  async getAllTeacherDivisions(params) {
+    return await Api().get("/teacher-divisions", { params });
   },
 
-  async saveDivisionSubjectTeacher(payload) {
-    return await Api().post("/division-subject-teacher", payload);
+  async getTeahcerSubjectsByDivision(params) {
+    return await Api().get("/teacher-subjects-by-division", { params });
   },
 
   // Student
@@ -193,46 +149,51 @@ export default {
     return await Api().get("/student/" + id);
   },
 
-  async saveStudent(payload) {
-    return await Api().post("/student", payload);
+  // Assignemnts
+  async getAllAssignments(params) {
+    return await Api().get("/assignments", { params });
   },
 
-  async deleteStudent(id) {
-    return await Api().delete("/student/" + id);
+  async getSingleAssignment(id) {
+    return await Api().get("/assignment/" + id);
+  },
+
+  async saveAssignment(payload) {
+    return await Api().post("/assignment", payload);
   },
 
   // ----------------- Masters -------------------------
   // Teacher Roles
-  async getAllTeacherRoles(params) {
-    return await Api().get("/teacher-roles", { params });
-  },
+  // async getAllTeacherRoles(params) {
+  //   return await Api().get("/teacher-roles", { params });
+  // },
 
-  async getSingleTeacherRole(id) {
-    return await Api().get("/teacher-role/" + id);
-  },
+  // async getSingleTeacherRole(id) {
+  //   return await Api().get("/teacher-role/" + id);
+  // },
 
-  async saveTeacherRole(payload) {
-    return await Api().post("/teacher-role", payload);
-  },
+  // async saveTeacherRole(payload) {
+  //   return await Api().post("/teacher-role", payload);
+  // },
 
-  async deleteTeacherRole(id) {
-    return await Api().delete("/teacher-role/" + id);
-  },
+  // async deleteTeacherRole(id) {
+  //   return await Api().delete("/teacher-role/" + id);
+  // },
 
   // Student Documents
-  async getAllStudentDocuments(params) {
-    return await Api().get("/student-documents", { params });
-  },
+  // async getAllStudentDocuments(params) {
+  //   return await Api().get("/student-documents", { params });
+  // },
 
-  async getSingleStudentDocument(id) {
-    return await Api().get("/student-document/" + id);
-  },
+  // async getSingleStudentDocument(id) {
+  //   return await Api().get("/student-document/" + id);
+  // },
 
-  async saveStudentDocument(payload) {
-    return await Api().post("/student-document", payload);
-  },
+  // async saveStudentDocument(payload) {
+  //   return await Api().post("/student-document", payload);
+  // },
 
-  async deleteStudentDocument(id) {
-    return await Api().delete("/student-document/" + id);
-  },
+  // async deleteStudentDocument(id) {
+  //   return await Api().delete("/student-document/" + id);
+  // },
 };

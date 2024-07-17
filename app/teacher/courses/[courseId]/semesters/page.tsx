@@ -112,7 +112,6 @@ const SemestersPage = ({ params }: Props) => {
               <TableHead>Number</TableHead>
               <TableHead>Duration</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -135,21 +134,6 @@ const SemestersPage = ({ params }: Props) => {
                   ) : (
                     <Badge className="bg-red-500 dark:bg-primary">Inactive</Badge>
                   )}
-                </TableCell>
-                <TableCell>
-                  <div className="flex gap-2">
-                    <DeleteTableAction
-                      action={async () => {
-                        await TeacherServices.deleteSemester(semester.id);
-                        await getAllSemesters();
-                        toast({
-                          title: "Semester Deleted",
-                          description: `'Semester ${semester.semNumber}' was permanently deleted from this course.`,
-                          action: <TrashIcon className="text-red-500" />,
-                        });
-                      }}
-                    />
-                  </div>
                 </TableCell>
               </TableRow>
             ))}

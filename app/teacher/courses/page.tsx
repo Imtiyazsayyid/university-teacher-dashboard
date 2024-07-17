@@ -112,7 +112,6 @@ const CoursesPage = () => {
               <TableHead>Abbreviation</TableHead>
               <TableHead>Duration</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -134,21 +133,6 @@ const CoursesPage = () => {
                   ) : (
                     <Badge className="bg-red-500 dark:bg-primary">Inactive</Badge>
                   )}
-                </TableCell>
-                <TableCell>
-                  <div className="flex gap-2">
-                    <DeleteTableAction
-                      action={async () => {
-                        await TeacherServices.deleteCourse(course.id);
-                        await getAllCourses();
-                        toast({
-                          title: "Course Deleted",
-                          description: `'${course.name}' was permanently deleted from all courses.`,
-                          action: <TrashIcon className="text-red-500" />,
-                        });
-                      }}
-                    />
-                  </div>
                 </TableCell>
               </TableRow>
             ))}

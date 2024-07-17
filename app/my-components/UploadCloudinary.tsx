@@ -14,6 +14,7 @@ interface CloudinaryResult {
 interface Props {
   setLink: (link: string) => void;
   btnClasses?: string;
+  buttonText?: string;
 }
 
 const UploadProfileCloudinary = ({ setLink, btnClasses }: Props) => {
@@ -29,13 +30,13 @@ const UploadProfileCloudinary = ({ setLink, btnClasses }: Props) => {
               palette: {
                 window: "#111111",
                 sourceBg: "#111111",
-                windowBorder: "#e11d47",
+                windowBorder: "#7C3AED",
                 tabIcon: "#ffffff",
                 inactiveTabIcon: "#555a5f",
                 menuIcons: "#555a5f",
-                link: "#e11d47",
+                link: "#7C3AED",
                 action: "#339933",
-                inProgress: "#e11d47",
+                inProgress: "#7C3AED",
                 complete: "#339933",
                 error: "#cc0000",
                 textDark: "#000000",
@@ -70,7 +71,7 @@ const UploadProfileCloudinary = ({ setLink, btnClasses }: Props) => {
                 }}
               >
                 <UploadIcon height={14} width={14} className="mr-2" />
-                Upload
+                Upload Material
               </Button>
             );
           }}
@@ -86,13 +87,13 @@ const UploadProfileCloudinary = ({ setLink, btnClasses }: Props) => {
               palette: {
                 window: "#fff",
                 sourceBg: "f4f4f5",
-                windowBorder: "#e11d47",
+                windowBorder: "#7C3AED", // change to primary theme
                 tabIcon: "#000000",
                 inactiveTabIcon: "#555a5f",
                 menuIcons: "#555a5f",
-                link: "#e11d47",
+                link: "#7C3AED", // change to primary theme
                 action: "#339933",
-                inProgress: "#e11d47",
+                inProgress: "#7C3AED", // change to primary theme
                 complete: "#339933",
                 error: "#cc0000",
                 textDark: "#000000",

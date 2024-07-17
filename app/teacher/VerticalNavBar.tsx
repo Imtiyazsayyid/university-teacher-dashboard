@@ -102,7 +102,7 @@ const VerticalNavBar = () => {
       {(isActive || isHovered) && (
         <div>
           <h1 className="text-4xl font-extrabold">
-            Admin <br /> University
+            Teacher <br /> University
           </h1>
         </div>
       )}

@@ -120,6 +120,9 @@ const DivisionDetailsPage = () => {
               <TableRow>
                 <TableHead className="w-[100px]">#</TableHead>
                 <TableHead>Name</TableHead>
+                <TableHead>Subject</TableHead>
+                <TableHead>Batch</TableHead>
+                <TableHead>Division</TableHead>
                 <TableHead>Due Date</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Actions</TableHead>
@@ -132,7 +135,11 @@ const DivisionDetailsPage = () => {
                     {index + 1 + (pagination.currentPage - 1) * pagination.itemsPerPage}
                   </TableCell>
                   <TableCell>{assignment.name}</TableCell>
-
+                  <TableCell>{assignment.subject.name}</TableCell>
+                  <TableCell>
+                    {assignment.division.batch.course.abbr} &#40;{assignment.division.batch.year}&#41;
+                  </TableCell>
+                  <TableCell>{assignment.division.name}</TableCell>
                   <TableCell>
                     <Badge className="bg-primary">
                       {moment(assignment.dueDate).format("DD MMM, YYYY")} at{" "}

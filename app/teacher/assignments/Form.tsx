@@ -38,10 +38,10 @@ interface AssignmentDetails {
 }
 
 interface Props {
-  assignmentId: number | undefined;
-  assignmentDetailsProp: AssignmentDetails;
-  questionsProp: Question[];
-  materialProp: string[];
+  assignmentId?: number | undefined;
+  assignmentDetailsProp?: AssignmentDetails;
+  questionsProp?: Question[];
+  materialProp?: string[];
 }
 
 const AssignmentForm = ({ assignmentDetailsProp, questionsProp, materialProp, assignmentId }: Props) => {
@@ -64,8 +64,6 @@ const AssignmentForm = ({ assignmentDetailsProp, questionsProp, materialProp, as
       const res = await TeacherServices.getAllTeacherDivisions();
       if (res.data.status) {
         setMyDivisions(res.data.data);
-        console.log({ res: res.data.data });
-
         return;
       }
       StandardErrorToast();
@@ -88,12 +86,10 @@ const AssignmentForm = ({ assignmentDetailsProp, questionsProp, materialProp, as
   }, []);
 
   useEffect(() => {
-    if (assignmentId) {
+    if (assignmentId && assignmentDetailsProp && questionsProp && materialProp) {
       if (assignmentDetailsProp.divisionId) {
         getTeacherSubjectsByDivision(assignmentDetailsProp.divisionId);
       }
-
-      console.log({ assignmentDetailsProp });
 
       setAssignmentDetails({
         name: assignmentDetailsProp.name,

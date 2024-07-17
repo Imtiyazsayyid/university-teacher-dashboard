@@ -65,7 +65,9 @@ const NewAssignmentPage = ({ searchParams }: Props) => {
   };
 
   useEffect(() => {
-    getSingleAssignment();
+    if (searchParams.assignmentId) {
+      getSingleAssignment();
+    }
   }, []);
 
   return (

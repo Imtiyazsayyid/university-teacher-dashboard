@@ -1,3 +1,4 @@
+import { AssignmentsSubmitted } from "./AssignmentInterface";
 import { Batch } from "./BatchInterface";
 import { Course } from "./CourseInterface";
 import { CourseStudentDocuments } from "./CourseStudentDocumentInterface";
@@ -26,4 +27,5 @@ export type Student = {
   division: Division;
 
   uploadedStudentDocuments: UploadedStudentDocument[];
+  submittedAssignments: AssignmentsSubmitted[];
 };

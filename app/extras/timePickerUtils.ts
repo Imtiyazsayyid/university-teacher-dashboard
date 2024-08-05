@@ -1,3 +1,5 @@
+import moment from "moment";
+
 /**
  * regular expression to check for valid hour format (01-23)
  */
@@ -126,6 +128,8 @@ export function setDateByType(date: Date, value: string, type: TimePickerType, p
 }
 
 export function getDateByType(date: Date, type: TimePickerType) {
+  // date = new Date(date);
+
   switch (type) {
     case "minutes":
       return getValidMinuteOrSecond(String(date.getMinutes()));
@@ -134,7 +138,7 @@ export function getDateByType(date: Date, type: TimePickerType) {
     case "hours":
       return getValidHour(String(date.getHours()));
     case "12hours":
-      const hours = display12HourValue(date.getHours());
+      const hours = date ? display12HourValue(date.getHours()) : "";
       return getValid12Hour(String(hours));
     default:
       return "00";

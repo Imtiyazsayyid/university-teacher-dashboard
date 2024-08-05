@@ -34,7 +34,7 @@ interface AssignmentDetails {
   description: string;
   divisionId: number | undefined;
   subjectId: number | undefined;
-  dueDate: Date | undefined;
+  dueDate: string | Date | undefined;
 }
 
 interface Props {
@@ -96,7 +96,7 @@ const AssignmentForm = ({ assignmentDetailsProp, questionsProp, materialProp, as
         description: assignmentDetailsProp.description,
         divisionId: assignmentDetailsProp.divisionId,
         subjectId: assignmentDetailsProp.subjectId,
-        dueDate: assignmentDetailsProp.dueDate,
+        dueDate: assignmentDetailsProp.dueDate ? new Date(assignmentDetailsProp.dueDate) : new Date(),
       });
       setQuestions(questionsProp);
       setMaterial(materialProp);

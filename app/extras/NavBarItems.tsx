@@ -11,6 +11,7 @@ import {
   LucideIcon,
   NotebookPenIcon,
   SlidersHorizontalIcon,
+  TicketIcon,
   UsersIcon,
 } from "lucide-react";
 
@@ -50,6 +51,13 @@ export const navBarItems: VerticalNavBarItem[] = [
     title: "Assigmnents",
     icon: NotebookPenIcon,
     key: "assignments",
+    isOpen: false,
+  },
+  {
+    route: "/teacher/events",
+    title: "Events",
+    icon: TicketIcon,
+    key: "events",
     isOpen: false,
   },
 ];

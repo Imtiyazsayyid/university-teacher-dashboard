@@ -13,25 +13,16 @@ import { abbreviate } from "../helpers/formatting";
 import { ProfileDropdown } from "../my-components/ProfileDropdown";
 import { TokenService } from "../Services/StorageService";
 import StandardErrorToast from "../extras/StandardErrorToast";
+import { useAtom, useStore } from "jotai";
+import { setTeacherDetails, teacherDetails } from "../store/Store";
 
 const HorizontalNavBar = () => {
   const router = useRouter();
-  const currentPath = usePathname();
-
-  const [adminDetails, setTeacherDetails] = useState<Teacher>();
-
-  const getTeacherDetails = async () => {
-    const res = await TeacherServices.getTeacherDetails();
-
-    if (!res.data.status) {
-      StandardErrorToast();
-    }
-
-    setTeacherDetails(res.data.data);
-  };
+  const store = useStore();
+  const [teacher] = useAtom(teacherDetails);
 
   useEffect(() => {
-    getTeacherDetails();
+    store.set(setTeacherDetails);
   }, []);
 
   const signOut = () => {
@@ -51,15 +42,15 @@ const HorizontalNavBar = () => {
         <div className="flex gap-4">
           <div>
             <p className="font-bold">
-              {adminDetails?.firstName} {adminDetails?.lastName}
+              {teacher?.firstName} {teacher?.lastName}
             </p>
             <p className="text-sm text-gray-500 text-end">Teacher</p>
           </div>
           <ProfileDropdown logoutAction={signOut}>
             <Avatar className="cursor-pointer">
-              <AvatarImage src={adminDetails?.profileImg || ""} alt="@shadcn" className="object-cover" />
+              <AvatarImage src={teacher?.profileImg || ""} alt="@shadcn" className="object-cover" />
               <AvatarFallback>
-                {adminDetails ? abbreviate(adminDetails?.firstName + " " + adminDetails?.lastName) : "?"}
+                {teacher ? abbreviate(teacher?.firstName + " " + teacher?.lastName) : "?"}
               </AvatarFallback>
             </Avatar>
           </ProfileDropdown>

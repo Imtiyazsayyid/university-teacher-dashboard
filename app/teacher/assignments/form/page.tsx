@@ -18,7 +18,7 @@ const NewAssignmentPage = ({ searchParams }: Props) => {
     description: "",
     divisionId: undefined as number | undefined,
     subjectId: undefined as number | undefined,
-    dueDate: new Date() as Date | undefined,
+    dueDate: new Date() as Date | string | undefined,
   });
 
   const [questions, setQuestions] = useState<Question[]>([]);

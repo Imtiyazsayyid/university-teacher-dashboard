@@ -162,38 +162,44 @@ export default {
     return await Api().post("/assignment", payload);
   },
 
-  // ----------------- Masters -------------------------
-  // Teacher Roles
-  // async getAllTeacherRoles(params) {
-  //   return await Api().get("/teacher-roles", { params });
-  // },
+  async getStudentsByAssignment(assignment_id, params) {
+    return await Api().get("/students-by-assignment/" + assignment_id, { params });
+  },
 
-  // async getSingleTeacherRole(id) {
-  //   return await Api().get("/teacher-role/" + id);
-  // },
+  async getSubmittedAssigment(submitted_assignment_id) {
+    return await Api().get("/submitted-assignment/" + submitted_assignment_id);
+  },
 
-  // async saveTeacherRole(payload) {
-  //   return await Api().post("/teacher-role", payload);
-  // },
+  // Assignemnts
+  async getAllEvents(params) {
+    return await Api().get("/events", { params });
+  },
 
-  // async deleteTeacherRole(id) {
-  //   return await Api().delete("/teacher-role/" + id);
-  // },
+  async getSingleEvent(id) {
+    return await Api().get("/event/" + id);
+  },
 
-  // Student Documents
-  // async getAllStudentDocuments(params) {
-  //   return await Api().get("/student-documents", { params });
-  // },
+  async saveEvent(payload) {
+    return await Api().post("/event", payload);
+  },
 
-  // async getSingleStudentDocument(id) {
-  //   return await Api().get("/student-document/" + id);
-  // },
+  async deleteEvent(id) {
+    return await Api().delete("/event/" + id);
+  },
 
-  // async saveStudentDocument(payload) {
-  //   return await Api().post("/student-document", payload);
-  // },
+  async joinEventOrganisers(payload) {
+    return await Api().post("/join-event-organisers", payload);
+  },
 
-  // async deleteStudentDocument(id) {
-  //   return await Api().delete("/student-document/" + id);
-  // },
+  async participateInEvent(payload) {
+    return await Api().post("/join-event-participants", payload);
+  },
+
+  async removeFromEvent(eventParticipantId) {
+    return await Api().delete("/remove-event-participant/" + eventParticipantId);
+  },
+
+  async setEventOrganiserApprovalStatus(payload) {
+    return await Api().post("/event-organisers-approval-status", payload);
+  },
 };

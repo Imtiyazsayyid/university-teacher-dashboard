@@ -9,8 +9,10 @@ export type Event = {
   eventHeadId: number;
   eventHead: Teacher;
   eventFor: "students" | "teachers" | "all";
+  finalRegistrationDate: Date;
   approvalStatus: "pending" | "approved" | "rejected";
   venue?: string;
+  isCompleted: Boolean;
 
   eventOrganisers: EventOrganiser[];
   eventParticipants: EventParticipant[];

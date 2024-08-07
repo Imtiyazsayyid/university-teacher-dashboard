@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { TicketIcon } from "lucide-react";
+import moment from "moment";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
@@ -31,12 +32,13 @@ const EventForm = ({ searchParams }: Props) => {
     venue: "",
     eventFor: "all",
     datetime: new Date() as Date | undefined,
+    finalRegistrationDate: new Date() as Date | undefined,
   });
 
   const [eventId, setEventId] = useState("");
 
   const handleSave = async () => {
-    if (!event.name || !event.description || !event.datetime) {
+    if (!event.name || !event.description || !event.datetime || !event.finalRegistrationDate) {
       StandardErrorToast("Could Not Create Event", "Please Enter All Details For This Event");
       return;
     }
@@ -60,8 +62,15 @@ const EventForm = ({ searchParams }: Props) => {
       const res = await TeacherServices.getSingleEvent(searchParams.eventId);
 
       if (res.data.status) {
-        const { name, description, datetime, venue, eventFor } = res.data.data;
-        setEvent({ name, description, datetime: new Date(datetime), venue, eventFor });
+        const { name, description, datetime, venue, eventFor, finalRegistrationDate } = res.data.data;
+        setEvent({
+          name,
+          description,
+          datetime: new Date(datetime),
+          venue,
+          eventFor,
+          finalRegistrationDate: finalRegistrationDate ? new Date(finalRegistrationDate) : new Date(),
+        });
       }
     }
   };
@@ -127,6 +136,7 @@ const EventForm = ({ searchParams }: Props) => {
               }
             />
           </div>
+
           <div className="flex-col flex gap-2 w-fit">
             <Label className="text-xs text-gray-700 dark:text-gray-500">Date & Time</Label>
             <DateTimePicker
@@ -135,6 +145,26 @@ const EventForm = ({ searchParams }: Props) => {
               className="w-full pr-14"
             />
           </div>
+
+          {event.datetime && (
+            <div className="flex-col flex gap-2 w-fit">
+              <Label className="text-xs text-gray-700 dark:text-gray-500">Final Registration Date</Label>
+              <DateTimePicker
+                date={event.finalRegistrationDate}
+                setDate={(val) => {
+                  if (moment(val).isAfter(moment(event.datetime))) {
+                    StandardErrorToast(
+                      "Invalid Final Registration Date",
+                      "Cannot Set Final Registration Date To Be after Event Date"
+                    );
+                    return;
+                  }
+                  setEvent({ ...event, finalRegistrationDate: val });
+                }}
+                className="w-full pr-14"
+              />
+            </div>
+          )}
         </div>
 
         <div className="flex flex-row gap-4 items-end">

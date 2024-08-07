@@ -202,4 +202,8 @@ export default {
   async setEventOrganiserApprovalStatus(payload) {
     return await Api().post("/event-organisers-approval-status", payload);
   },
+
+  async markEventComplete(eventId) {
+    return await Api().post(`/mark-event-complete/${eventId}`);
+  },
 };

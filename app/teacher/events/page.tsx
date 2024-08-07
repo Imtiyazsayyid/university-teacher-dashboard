@@ -27,6 +27,7 @@ import {
   ClockIcon,
   LibraryBigIcon,
   NotebookPenIcon,
+  PlayIcon,
   PlusIcon,
   TicketIcon,
   TrashIcon,
@@ -126,12 +127,12 @@ const DivisionDetailsPage = () => {
       const res = await TeacherServices.participateInEvent({ eventId });
 
       if (res.data.status) {
-        StandardSuccessToast("Request Sent", "Your Request to participate in this event has been sent successfully");
+        StandardSuccessToast("Request Sent", "Your have been registered successsfully");
         getAllEvents();
         return;
       }
 
-      StandardErrorToast("Failed to Send Request", "Your Request to participate in this event has not been sent");
+      StandardErrorToast("Failed to Send Request", res.data.message);
     } catch (error) {
       StandardErrorToast("Failed to Send Request", "Your Request to participate in this event has not been sent");
       console.error(error);
@@ -165,25 +166,30 @@ const DivisionDetailsPage = () => {
             <XCircleIcon height={16} /> Rejected
           </Badge>
         );
-    } else
-      return (
-        <div
-          className="border w-fit p-1 py-2 rounded-md hover:text-white hover:bg-violet-600"
-          onClick={(e) => {
-            e.stopPropagation();
-            requestToOrganiseEvent(event.id);
-          }}
-        >
-          <NotebookPenIcon height={16} />
-        </div>
-      );
+    } else {
+      if (event.isCompleted) {
+        return <></>;
+      } else {
+        return (
+          <div
+            className="border w-fit p-1 py-2 rounded-md hover:text-white hover:bg-violet-600"
+            onClick={(e) => {
+              e.stopPropagation();
+              requestToOrganiseEvent(event.id);
+            }}
+          >
+            <NotebookPenIcon height={16} />
+          </div>
+        );
+      }
+    }
   };
 
   const getParticipationStatus = (event: Event) => {
     const isTeacherParticipating = event.eventParticipants.find((eo) => eo.teacherId === teacher?.id);
     const isTeacherHead = event.eventHeadId === teacher?.id;
 
-    if (isTeacherHead || event.eventFor === "students") {
+    if (isTeacherHead || event.eventFor === "students" || event.isCompleted) {
       return <></>;
     }
 
@@ -193,18 +199,24 @@ const DivisionDetailsPage = () => {
           <ClockIcon height={16} /> Registered
         </Badge>
       );
-    } else
-      return (
-        <div
-          className="border w-fit p-1 py-2 rounded-md hover:text-white hover:bg-violet-600"
-          onClick={(e) => {
-            e.stopPropagation();
-            requestToParticipateInEvent(event.id);
-          }}
-        >
-          <CalendarPlusIcon height={16} />
-        </div>
-      );
+    } else {
+      const now = moment();
+      if (now.isAfter(moment(event.finalRegistrationDate))) {
+        return <Badge className="bg-gray-500 hover:bg-gray-500">Closed</Badge>;
+      } else {
+        return (
+          <div
+            className="border w-fit p-1 py-2 rounded-md hover:text-white hover:bg-violet-600"
+            onClick={(e) => {
+              e.stopPropagation();
+              requestToParticipateInEvent(event.id);
+            }}
+          >
+            <CalendarPlusIcon height={16} />
+          </div>
+        );
+      }
+    }
   };
 
   const getRequestedEventStatus = (event: Event) => {
@@ -226,6 +238,56 @@ const DivisionDetailsPage = () => {
           <XCircleIcon height={16} /> Rejected
         </Badge>
       );
+  };
+
+  const getEventStatus = (event: Event) => {
+    const isTeacherHead = event.eventHeadId === teacher?.id;
+
+    if (event.isCompleted) {
+      return (
+        <Badge
+          variant={"outline"}
+          className="border flex w-fit p-1 gap-1 pr-3 pl-0 rounded-full hover:text-white bg-green-800 hover:bg-green-800"
+          onClick={(e) => {
+            e.preventDefault();
+          }}
+        >
+          <CheckCircleIcon height={16} />
+          Complete
+        </Badge>
+      );
+    }
+
+    let now = moment();
+
+    if (isTeacherHead && now.isSameOrAfter(moment(event.datetime))) {
+      return (
+        <Badge
+          className="border w-fit p-1 gap-1 px-2 rounded-full cursor-pointer hover:text-white bg-gray-800 hover:bg-green-800"
+          onClick={async (e) => {
+            e.stopPropagation();
+            await TeacherServices.markEventComplete(event.id);
+            getAllEvents();
+          }}
+        >
+          Mark As Complete
+        </Badge>
+      );
+    }
+
+    if (now.isSameOrAfter(moment(event.datetime))) {
+      return (
+        <Badge className="border flex w-fit p-1 pr-4 pl-2 gap-1 rounded-full hover:text-white bg-violet-600 hover:bg-violet-600">
+          <PlayIcon height={14} width={14} /> Ongoing
+        </Badge>
+      );
+    } else {
+      return (
+        <Badge className="border flex w-fit p-1 gap-1 pr-3 pl-0 rounded-full hover:text-white bg-sky-600 hover:bg-sky-600">
+          <ClockIcon height={16} /> Upcoming
+        </Badge>
+      );
+    }
   };
 
   const handleSelectEventType = async (eventType: string) => {
@@ -256,7 +318,7 @@ const DivisionDetailsPage = () => {
         <div className="h-10 flex gap-3">
           <div
             className={`w-fit border h-full flex justify-center items-center rounded-full px-10 cursor-pointer ${
-              eventType === "all" && "bg-primary border-none"
+              eventType === "all" ? "bg-primary border-none" : "bg-gray-800"
             }`}
             onClick={() => handleSelectEventType("all")}
           >
@@ -265,7 +327,7 @@ const DivisionDetailsPage = () => {
 
           <div
             className={`w-fit border h-full flex justify-center items-center rounded-full px-10 cursor-pointer ${
-              eventType === "organised" && "bg-primary border-none"
+              eventType === "organised" ? "bg-primary border-none" : "bg-gray-800"
             }`}
             onClick={() => handleSelectEventType("organised")}
           >
@@ -274,7 +336,7 @@ const DivisionDetailsPage = () => {
 
           <div
             className={`w-fit border h-full flex justify-center items-center rounded-full px-10 cursor-pointer ${
-              eventType === "participated" && "bg-primary border-none"
+              eventType === "participated" ? "bg-primary border-none" : "bg-gray-800"
             }`}
             onClick={() => handleSelectEventType("participated")}
           >
@@ -310,7 +372,7 @@ const DivisionDetailsPage = () => {
                         {requestedEvents.map((re) => (
                           <div className="flex justify-between items-end pb-4 pt-4">
                             <h4 className="text-md font-bold">{re.name}</h4>
-                            <div>{getRequestedEventStatus(re)}</div>
+                            <div className="text-nowrap">{getRequestedEventStatus(re)}</div>
                           </div>
                         ))}
                       </div>
@@ -398,11 +460,12 @@ const DivisionDetailsPage = () => {
 
                 <TableCell>{getParticipationStatus(event)}</TableCell>
                 <TableCell>
-                  {event.status ? (
+                  {/* {event.status ? (
                     <Badge className="bg-emerald-500 hover:bg-emerald-800 dark:bg-emerald-800">Active</Badge>
                   ) : (
                     <Badge className="bg-red-500 dark:bg-primary">Inactive</Badge>
-                  )}
+                  )} */}
+                  {getEventStatus(event)}
                 </TableCell>
                 <TableCell>
                   {event.eventHeadId === teacher?.id && (

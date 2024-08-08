@@ -1,7 +1,8 @@
 "use client";
 import AdminServices from "@/app/Services/AdminServices";
 import StandardErrorToast from "@/app/extras/StandardErrorToast";
-import { Teacher, TeacherRole } from "@/app/interfaces/TeacherInterface";
+import { Teacher } from "@/app/interfaces/TeacherInterface";
+import { TeacherRole } from "@/app/interfaces/TeacherRoleInterface";
 import ErrorLabel from "@/app/my-components/ErrorLabel";
 import GoBack from "@/app/my-components/GoBack";
 import { MySelect } from "@/app/my-components/MySelect";
@@ -248,9 +249,7 @@ const TeacherForm = ({ currentTeacher }: Props) => {
             <ErrorLabel errorMessage={errors.roleId} />
             <MySelect
               options={teacherRoles.map((tr) => ({ label: tr.name, value: tr.id }))}
-              onSelect={(val) =>
-                setTeacherDetails({ ...teacherDetails, roleId: val ? parseInt(val) : null })
-              }
+              onSelect={(val) => setTeacherDetails({ ...teacherDetails, roleId: val ? parseInt(val) : null })}
               selectedItem={teacherDetails.roleId || undefined}
             />
           </div>
@@ -269,9 +268,7 @@ const TeacherForm = ({ currentTeacher }: Props) => {
               />
             </div>
             <div className="flex-col flex gap-2 w-1/2">
-              <Label className="text-xs text-gray-700 dark:text-gray-500">
-                Experience &#40;years&#41;
-              </Label>
+              <Label className="text-xs text-gray-700 dark:text-gray-500">Experience &#40;years&#41;</Label>
               <Input
                 autoComplete="off"
                 type="number"
@@ -340,9 +337,7 @@ const TeacherForm = ({ currentTeacher }: Props) => {
 
         <div className="flex flex-row gap-4">
           <div className="w-full flex-col flex gap-2">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Awards And Recognition
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Awards And Recognition</Label>
             <Textarea
               className="resize-none h-48"
               value={teacherDetails.awardsAndRecognition}
@@ -355,9 +350,7 @@ const TeacherForm = ({ currentTeacher }: Props) => {
             />
           </div>
           <div className="w-full flex-col flex gap-2">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Guest Speaker and Resource Person
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Guest Speaker and Resource Person</Label>
             <Textarea
               className="resize-none h-48"
               value={teacherDetails.guestSpeakerAndResourcePerson}
@@ -390,9 +383,7 @@ const TeacherForm = ({ currentTeacher }: Props) => {
             />
           </div>
           <div className="w-full flex-col flex gap-2">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Research Publications
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Research Publications</Label>
             <Textarea
               className="resize-none h-48"
               value={teacherDetails.researchPublications}
@@ -410,9 +401,7 @@ const TeacherForm = ({ currentTeacher }: Props) => {
 
         <div className="flex flex-row gap-4">
           <div className="w-full flex-col flex gap-2">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Certification Courses
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Certification Courses</Label>
             <Textarea
               className="resize-none h-48"
               value={teacherDetails.certificationCourses}
@@ -443,9 +432,7 @@ const TeacherForm = ({ currentTeacher }: Props) => {
 
         <div className="flex flex-row gap-4">
           <div className="flex-col flex gap-2 w-1/2">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Professional Memberships
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Professional Memberships</Label>
             <Textarea
               className="resize-none h-48"
               value={teacherDetails.professionalMemberships}

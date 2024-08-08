@@ -68,7 +68,7 @@ const AssignmentPage = ({ params }: Props) => {
             {showUploadedMaterial && (
               <div className="w-full min-h-96 gap-4 flex items-center overflow-hidden overflow-x-auto">
                 {submittedAssignment?.assignment.assignmentUploads.map((u, index) => (
-                  <div className="relative">
+                  <div className="relative" key={u.id}>
                     <PreviewAnything link={u.material_url} key={u.id} extraClassName="max-w-96 max-h-80" />
                     <a
                       className="border w-fit absolute bg-violet-800 p-2 rounded-full top-5 right-5"

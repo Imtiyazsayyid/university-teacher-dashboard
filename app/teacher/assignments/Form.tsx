@@ -22,6 +22,7 @@ import UploadCloudinary from "@/app/my-components/UploadCloudinary";
 import PreviewAnything from "@/app/my-components/PreviewAnything";
 import StandardErrorToast from "@/app/extras/StandardErrorToast";
 import StandardSuccessToast from "@/app/extras/StandardSuccessToast";
+import { useRouter } from "next/navigation";
 
 export interface Question {
   db_id?: number | null;
@@ -58,6 +59,7 @@ const AssignmentForm = ({ assignmentDetailsProp, questionsProp, materialProp, as
   const [questions, setQuestions] = useState<Question[]>([]);
   const [material, setMaterial] = useState<string[]>([]);
   const [pastedMaterialLink, setPastedMaterialLink] = useState("");
+  const router = useRouter();
 
   const getMyDivisions = async () => {
     try {
@@ -149,6 +151,8 @@ const AssignmentForm = ({ assignmentDetailsProp, questionsProp, materialProp, as
           "Success! Assignemnt Has Been Created",
           "You can view this assignments in your assignment list."
         );
+
+        router.back();
       } else {
         StandardErrorToast("Could Not Save Assignment.", "An Unecpected Error Has Occured");
       }

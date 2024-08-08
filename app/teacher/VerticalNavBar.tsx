@@ -35,9 +35,9 @@ const VerticalNavBar = () => {
   };
 
   const isCurrentPath = (item: VerticalNavBarItem) => {
-    if (item.route === "/admin" && currentPath === "/admin") {
+    if (item.route === "/teacher" && currentPath === "/teacher") {
       return true; // Exact match for home
-    } else if (item.route !== "/admin") {
+    } else if (item.route !== "/teacher") {
       let items = currentPath.split("/");
       items.splice(0, 2);
 

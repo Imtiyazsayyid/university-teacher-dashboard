@@ -25,7 +25,7 @@ export default function DeleteTableAction({ action }: Props) {
           e.stopPropagation();
         }}
       >
-        <div className="border w-fit p-1 py-2 rounded-md hover:text-white hover:bg-primary">
+        <div className="border w-fit p-1 py-2 rounded-md hover:text-white hover:bg-red-800">
           <TrashIcon height={16} />
         </div>
       </AlertDialogTrigger>

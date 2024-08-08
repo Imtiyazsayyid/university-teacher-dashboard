@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "@/components/ui/command";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { CommandList } from "cmdk";
 
 interface Option {
   label: string;
@@ -20,10 +21,20 @@ interface Props {
   clearable?: boolean;
   width?: number;
   className?: string;
+  dropDownClassName?: string;
   disabled?: boolean;
 }
 
-export function Combobox({ options, value, onSelect, clearable, width, className, disabled }: Props) {
+export function Combobox({
+  options,
+  value,
+  onSelect,
+  clearable,
+  width,
+  className,
+  disabled,
+  dropDownClassName,
+}: Props) {
   const [open, setOpen] = React.useState(false);
 
   return (
@@ -52,7 +63,7 @@ export function Combobox({ options, value, onSelect, clearable, width, className
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className={`min-w-fit p-0 ${className}`}>
+        <PopoverContent className={`min-w-fit p-0 ${dropDownClassName}`}>
           <Command>
             <CommandInput placeholder="Search..." className="overflow-hidden" />
             {options.length === 0 && (
@@ -61,7 +72,7 @@ export function Combobox({ options, value, onSelect, clearable, width, className
               </div>
             )}
             <CommandEmpty>No Results Found.</CommandEmpty>
-            <CommandGroup>
+            <CommandList>
               {options.map((framework) => (
                 <CommandItem
                   key={framework.value}
@@ -75,7 +86,7 @@ export function Combobox({ options, value, onSelect, clearable, width, className
                   {framework.label}
                 </CommandItem>
               ))}
-            </CommandGroup>
+            </CommandList>
           </Command>
         </PopoverContent>
       </Popover>

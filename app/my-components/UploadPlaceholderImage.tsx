@@ -18,8 +18,6 @@ const UploadPlaceholderImage = ({ file }: Props) => {
   const [documentFile, setDocumentFile] = useState(file);
   const [show, setShow] = useState(false);
 
-  if (!file.uri) return null;
-
   const testLink = async (file: File) => {
     try {
       const res = await fetch(file.uri);
@@ -33,6 +31,8 @@ const UploadPlaceholderImage = ({ file }: Props) => {
     setDocumentFile(file);
     testLink(file);
   }, [file]);
+
+  if (!file.uri) return null;
 
   return (
     <StyleSheetManager shouldForwardProp={(prop) => prop !== "mainState"}>

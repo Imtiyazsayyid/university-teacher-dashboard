@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import DivisionCard from "./DivisionCard";
 import { Division } from "@/app/interfaces/DivisionInterface";
 
-const page = () => {
+const TeacherBatches = () => {
   const [myDivisions, setMyDivisions] = useState<Division[]>([]);
 
   const getMyDivisions = async () => {
@@ -54,4 +54,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default TeacherBatches;

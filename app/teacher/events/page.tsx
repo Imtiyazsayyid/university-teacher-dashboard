@@ -370,7 +370,7 @@ const DivisionDetailsPage = () => {
                     <NavigationMenuContent className="bg-stone-950">
                       <div className="min-w-96 p-5 flex-col gap-2">
                         {requestedEvents.map((re) => (
-                          <div className="flex justify-between items-end pb-4 pt-4">
+                          <div className="flex justify-between items-end pb-4 pt-4" key={re.id}>
                             <h4 className="text-md font-bold">{re.name}</h4>
                             <div className="text-nowrap">{getRequestedEventStatus(re)}</div>
                           </div>

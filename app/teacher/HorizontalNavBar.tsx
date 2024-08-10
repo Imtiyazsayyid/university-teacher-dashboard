@@ -25,6 +25,10 @@ const HorizontalNavBar = () => {
     store.set(setTeacherDetails);
   }, []);
 
+  const handleProfileClick = () => {
+    router.push("/teacher/details");
+  }
+
   const signOut = () => {
     TokenService.removeAccessToken();
     router.push("/auth/login");
@@ -46,7 +50,7 @@ const HorizontalNavBar = () => {
             </p>
             <p className="text-sm text-gray-500 text-end">Teacher</p>
           </div>
-          <ProfileDropdown logoutAction={signOut}>
+          <ProfileDropdown logoutAction={signOut} handleProfileClick={handleProfileClick}>
             <Avatar className="cursor-pointer">
               <AvatarImage src={teacher?.profileImg || ""} alt="@shadcn" className="object-cover" />
               <AvatarFallback>

@@ -33,9 +33,10 @@ import {
 interface Props {
   children: React.ReactNode;
   logoutAction: () => void;
+  handleProfileClick: () => void;
 }
 
-export function ProfileDropdown({ children, logoutAction }: Props) {
+export function ProfileDropdown({ children, logoutAction, handleProfileClick }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>{children}</DropdownMenuTrigger>
@@ -43,7 +44,7 @@ export function ProfileDropdown({ children, logoutAction }: Props) {
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={handleProfileClick}>
             <User className="mr-2 h-4 w-4" />
             <span>Profile</span>
           </DropdownMenuItem>

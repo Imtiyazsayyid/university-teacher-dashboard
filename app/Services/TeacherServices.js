@@ -131,6 +131,11 @@ export default {
     return await Api().post("/teacher", payload);
   },
 
+  // Teacher Roles
+  async getAllTeacherRoles(params) {
+    return await Api().get("/teacher-roles", { params });
+  },
+
   // Subject Divison Teachers
   async getAllTeacherDivisions(params) {
     return await Api().get("/teacher-divisions", { params });
@@ -163,7 +168,9 @@ export default {
   },
 
   async getStudentsByAssignment(assignment_id, params) {
-    return await Api().get("/students-by-assignment/" + assignment_id, { params });
+    return await Api().get("/students-by-assignment/" + assignment_id, {
+      params,
+    });
   },
 
   async getSubmittedAssigment(submitted_assignment_id) {
@@ -196,7 +203,9 @@ export default {
   },
 
   async removeFromEvent(eventParticipantId) {
-    return await Api().delete("/remove-event-participant/" + eventParticipantId);
+    return await Api().delete(
+      "/remove-event-participant/" + eventParticipantId
+    );
   },
 
   async setEventOrganiserApprovalStatus(payload) {
@@ -206,4 +215,5 @@ export default {
   async markEventComplete(eventId) {
     return await Api().post(`/mark-event-complete/${eventId}`);
   },
+
 };

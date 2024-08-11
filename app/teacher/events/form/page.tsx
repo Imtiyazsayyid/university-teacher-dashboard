@@ -17,21 +17,17 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { TicketIcon } from "lucide-react";
 import moment from "moment";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-interface Props {
-  searchParams: {
-    eventId: string;
-  };
-}
-
-const EventForm = ({ searchParams }: Props) => {
+const EventForm = () => {
   const router = useRouter();
 
   const [courses, setCourses] = useState<Course[]>();
   const [batches, setBatches] = useState<Batch[]>();
   const [eventId, setEventId] = useState("");
+  const searchParams = useSearchParams();
+  const searchParamEventId = searchParams.get("eventId");
 
   const [event, setEvent] = useState({
     name: "",
@@ -73,8 +69,8 @@ const EventForm = ({ searchParams }: Props) => {
   };
 
   const getSingleEvent = async () => {
-    if (searchParams.eventId) {
-      const res = await TeacherServices.getSingleEvent(searchParams.eventId);
+    if (searchParamEventId) {
+      const res = await TeacherServices.getSingleEvent(searchParamEventId);
 
       if (res.data.status) {
         const { name, description, datetime, venue, eventFor, courseId, batchId, finalRegistrationDate } =
@@ -95,10 +91,8 @@ const EventForm = ({ searchParams }: Props) => {
   };
 
   useEffect(() => {
-    console.log({ eventId: searchParams.eventId });
-
-    if (searchParams.eventId) {
-      setEventId(searchParams.eventId);
+    if (searchParamEventId) {
+      setEventId(searchParamEventId);
       getSingleEvent();
     }
   }, []);

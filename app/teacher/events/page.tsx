@@ -472,9 +472,7 @@ const AllEventsPage = () => {
                 <TableCell>
                   {event.eventHeadId === teacher?.id && (
                     <div className="flex gap-2">
-                      <Link href={"/teacher/events/form?eventId=" + event.id} onClick={(e) => e.stopPropagation()}>
-                        <EditTableAction />
-                      </Link>
+                      <EditTableAction action={() => router.push("/teacher/events/form?eventId=" + event.id)} />
                       <DeleteTableAction
                         action={async () => {
                           await TeacherServices.deleteEvent(event.id);

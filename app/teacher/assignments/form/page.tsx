@@ -5,14 +5,9 @@ import AssignmentForm from "../Form";
 import TeacherServices from "@/app/Services/TeacherServices";
 import StandardErrorToast from "@/app/extras/StandardErrorToast";
 import { Question } from "../Form";
+import { useSearchParams } from "next/navigation";
 
-interface Props {
-  searchParams: {
-    assignmentId: string;
-  };
-}
-
-const NewAssignmentPage = ({ searchParams }: Props) => {
+const NewAssignmentPage = () => {
   const [assignmentDetails, setAssignmentDetails] = useState({
     name: "",
     description: "",
@@ -24,10 +19,12 @@ const NewAssignmentPage = ({ searchParams }: Props) => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [material, setMaterial] = useState<string[]>([]);
   const [assignmentId, setAssignmentId] = useState<number | undefined>();
+  const searchParams = useSearchParams();
+  const searchParamAssignmentId = searchParams.get("assignmentId");
 
   const getSingleAssignment = async () => {
     try {
-      const res = await TeacherServices.getSingleAssignment(searchParams.assignmentId);
+      const res = await TeacherServices.getSingleAssignment(searchParamAssignmentId);
 
       if (!res.data.status) {
         StandardErrorToast();
@@ -65,7 +62,7 @@ const NewAssignmentPage = ({ searchParams }: Props) => {
   };
 
   useEffect(() => {
-    if (searchParams.assignmentId) {
+    if (searchParamAssignmentId) {
       getSingleAssignment();
     }
   }, []);

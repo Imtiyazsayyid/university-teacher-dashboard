@@ -31,6 +31,7 @@ const EventForm = ({ searchParams }: Props) => {
 
   const [courses, setCourses] = useState<Course[]>();
   const [batches, setBatches] = useState<Batch[]>();
+  const [eventId, setEventId] = useState("");
 
   const [event, setEvent] = useState({
     name: "",
@@ -44,8 +45,6 @@ const EventForm = ({ searchParams }: Props) => {
     finalRegistrationDate: new Date() as Date | undefined,
   });
 
-  const [eventId, setEventId] = useState("");
-
   const handleSave = async () => {
     if (
       !event.name ||
@@ -55,10 +54,7 @@ const EventForm = ({ searchParams }: Props) => {
       !event.batchId ||
       !event.courseId
     ) {
-      StandardErrorToast(
-        "Could Not Create Event",
-        "Please Enter All Details For This Event"
-      );
+      StandardErrorToast("Could Not Create Event", "Please Enter All Details For This Event");
       return;
     }
 
@@ -68,10 +64,7 @@ const EventForm = ({ searchParams }: Props) => {
       if (!res.data.status) {
         StandardErrorToast(undefined, res.data.message);
       } else {
-        StandardSuccessToast(
-          "Successfully Saved Event",
-          "Your event has been saved successfully"
-        );
+        StandardSuccessToast("Successfully Saved Event", "Your event has been saved successfully");
         router.push("/teacher/events");
       }
     } catch (error) {
@@ -84,16 +77,9 @@ const EventForm = ({ searchParams }: Props) => {
       const res = await TeacherServices.getSingleEvent(searchParams.eventId);
 
       if (res.data.status) {
-        const {
-          name,
-          description,
-          datetime,
-          venue,
-          eventFor,
-          courseId,
-          batchId,
-          finalRegistrationDate,
-        } = res.data.data;
+        const { name, description, datetime, venue, eventFor, courseId, batchId, finalRegistrationDate } =
+          res.data.data;
+
         setEvent({
           name,
           description,
@@ -102,15 +88,15 @@ const EventForm = ({ searchParams }: Props) => {
           eventFor,
           courseId,
           batchId,
-          finalRegistrationDate: finalRegistrationDate
-            ? new Date(finalRegistrationDate)
-            : new Date(),
+          finalRegistrationDate: finalRegistrationDate ? new Date(finalRegistrationDate) : new Date(),
         });
       }
     }
   };
 
   useEffect(() => {
+    console.log({ eventId: searchParams.eventId });
+
     if (searchParams.eventId) {
       setEventId(searchParams.eventId);
       getSingleEvent();
@@ -163,9 +149,7 @@ const EventForm = ({ searchParams }: Props) => {
         </div>
         <div className="flex flex-row gap-4 items-end">
           <div className="flex-col flex gap-2 w-full">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Name
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Name</Label>
             <Input
               type="text"
               autoComplete="off"
@@ -174,9 +158,7 @@ const EventForm = ({ searchParams }: Props) => {
             />
           </div>
           <div className="flex-col flex gap-2 w-full">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Venue
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Venue</Label>
             <Input
               type="text"
               autoComplete="off"
@@ -185,9 +167,7 @@ const EventForm = ({ searchParams }: Props) => {
             />
           </div>
           <div className="flex-col flex gap-2 w-full">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Who is this event For?
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Who is this event For?</Label>
             <MySelect
               options={[
                 { label: "All", value: "all" },
@@ -205,9 +185,7 @@ const EventForm = ({ searchParams }: Props) => {
           </div>
 
           <div className="flex-col flex gap-2 w-fit">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Date & Time
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Date & Time</Label>
             <DateTimePicker
               date={event.datetime}
               setDate={(val) => setEvent({ ...event, datetime: val })}
@@ -217,9 +195,7 @@ const EventForm = ({ searchParams }: Props) => {
 
           {event.datetime && (
             <div className="flex-col flex gap-2 w-full">
-              <Label className="text-xs text-gray-700 dark:text-gray-500">
-                Final Registration Date
-              </Label>
+              <Label className="text-xs text-gray-700 dark:text-gray-500">Final Registration Date</Label>
               <DateTimePicker
                 date={event.finalRegistrationDate}
                 setDate={(val) => {
@@ -240,9 +216,7 @@ const EventForm = ({ searchParams }: Props) => {
 
         <div className="flex flex-row gap-4 items-end">
           <div className="w-full flex-col flex gap-2">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Course
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Course</Label>
             {/* <ErrorLabel errorMessage={errors.courseId} /> */}
             <Combobox
               clearable
@@ -265,9 +239,7 @@ const EventForm = ({ searchParams }: Props) => {
           </div>
 
           <div className="w-full flex-col flex gap-2">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Batch
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Batch</Label>
             {/* <ErrorLabel errorMessage={errors.batchId} /> */}
             <Combobox
               disabled={event.courseId ? false : true}
@@ -294,27 +266,19 @@ const EventForm = ({ searchParams }: Props) => {
 
         <div className="flex flex-row gap-4 items-end">
           <div className="w-full flex-col flex gap-2">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">
-              Description
-            </Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">Description</Label>
             <Textarea
               className="h-96 resize-none"
               autoComplete="off"
               value={event.description}
-              onChange={(e) =>
-                setEvent({ ...event, description: e.target.value })
-              }
+              onChange={(e) => setEvent({ ...event, description: e.target.value })}
             />
           </div>
         </div>
       </div>
 
       <div className="flex justify-center gap-4 py-20">
-        <Button
-          className="w-96"
-          variant={"outline"}
-          onClick={() => router.back()}
-        >
+        <Button className="w-96" variant={"outline"} onClick={() => router.back()}>
           Cancel
         </Button>
         <Button className="w-96" onClick={handleSave}>

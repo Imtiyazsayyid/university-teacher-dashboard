@@ -27,7 +27,7 @@ const EventForm = () => {
   const [batches, setBatches] = useState<Batch[]>();
   const [eventId, setEventId] = useState("");
   const searchParams = useSearchParams();
-  const searchParamEventId = searchParams.get("searchParamEventId");
+  const searchParamEventId = searchParams.get("eventId");
 
   const [event, setEvent] = useState({
     name: "",

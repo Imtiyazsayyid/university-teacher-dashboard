@@ -46,6 +46,7 @@ import {
 import moment from "moment";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Link from "next/link";
 
 const AllEventsPage = () => {
   //
@@ -471,7 +472,9 @@ const AllEventsPage = () => {
                 <TableCell>
                   {event.eventHeadId === teacher?.id && (
                     <div className="flex gap-2">
-                      <EditTableAction action={() => router.push("/teacher/events/form?eventId=" + event.id)} />
+                      <Link href={"/teacher/events/form?eventId=" + event.id} onClick={(e) => e.stopPropagation()}>
+                        <EditTableAction />
+                      </Link>
                       <DeleteTableAction
                         action={async () => {
                           await TeacherServices.deleteEvent(event.id);

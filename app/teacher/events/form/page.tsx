@@ -2,6 +2,9 @@
 
 import StandardErrorToast from "@/app/extras/StandardErrorToast";
 import StandardSuccessToast from "@/app/extras/StandardSuccessToast";
+import { Batch } from "@/app/interfaces/BatchInterface";
+import { Course } from "@/app/interfaces/CourseInterface";
+import { Combobox } from "@/app/my-components/Combobox";
 import { DateTimePicker } from "@/app/my-components/DateTimePicker";
 import ErrorLabel from "@/app/my-components/ErrorLabel";
 import GoBack from "@/app/my-components/GoBack";
@@ -26,11 +29,17 @@ interface Props {
 const EventForm = ({ searchParams }: Props) => {
   const router = useRouter();
 
+  const [courses, setCourses] = useState<Course[]>();
+  const [batches, setBatches] = useState<Batch[]>();
+
   const [event, setEvent] = useState({
     name: "",
     description: "",
     venue: "",
     eventFor: "all",
+
+    courseId: null as number | null,
+    batchId: null as number | null,
     datetime: new Date() as Date | undefined,
     finalRegistrationDate: new Date() as Date | undefined,
   });
@@ -38,8 +47,18 @@ const EventForm = ({ searchParams }: Props) => {
   const [eventId, setEventId] = useState("");
 
   const handleSave = async () => {
-    if (!event.name || !event.description || !event.datetime || !event.finalRegistrationDate) {
-      StandardErrorToast("Could Not Create Event", "Please Enter All Details For This Event");
+    if (
+      !event.name ||
+      !event.description ||
+      !event.datetime ||
+      !event.finalRegistrationDate ||
+      !event.batchId ||
+      !event.courseId
+    ) {
+      StandardErrorToast(
+        "Could Not Create Event",
+        "Please Enter All Details For This Event"
+      );
       return;
     }
 
@@ -49,7 +68,10 @@ const EventForm = ({ searchParams }: Props) => {
       if (!res.data.status) {
         StandardErrorToast(undefined, res.data.message);
       } else {
-        StandardSuccessToast("Successfully Saved Event", "Your event has been saved successfully");
+        StandardSuccessToast(
+          "Successfully Saved Event",
+          "Your event has been saved successfully"
+        );
         router.push("/teacher/events");
       }
     } catch (error) {
@@ -62,14 +84,27 @@ const EventForm = ({ searchParams }: Props) => {
       const res = await TeacherServices.getSingleEvent(searchParams.eventId);
 
       if (res.data.status) {
-        const { name, description, datetime, venue, eventFor, finalRegistrationDate } = res.data.data;
+        const {
+          name,
+          description,
+          datetime,
+          venue,
+          eventFor,
+          courseId,
+          batchId,
+          finalRegistrationDate,
+        } = res.data.data;
         setEvent({
           name,
           description,
           datetime: new Date(datetime),
           venue,
           eventFor,
-          finalRegistrationDate: finalRegistrationDate ? new Date(finalRegistrationDate) : new Date(),
+          courseId,
+          batchId,
+          finalRegistrationDate: finalRegistrationDate
+            ? new Date(finalRegistrationDate)
+            : new Date(),
         });
       }
     }
@@ -80,6 +115,32 @@ const EventForm = ({ searchParams }: Props) => {
       setEventId(searchParams.eventId);
       getSingleEvent();
     }
+  }, []);
+
+  const getAllCourses = async () => {
+    const res = await TeacherServices.getAllCourses();
+    if (!res.data.status) {
+      StandardErrorToast();
+      return;
+    }
+
+    setCourses(res.data.data.courses);
+  };
+
+  const getAllBatches = async () => {
+    const res = await TeacherServices.getAllBatches();
+
+    if (!res.data.status) {
+      StandardErrorToast();
+      return;
+    }
+
+    setBatches(res.data.data.batches);
+  };
+
+  useEffect(() => {
+    getAllBatches();
+    getAllCourses();
   }, []);
 
   return (
@@ -102,7 +163,9 @@ const EventForm = ({ searchParams }: Props) => {
         </div>
         <div className="flex flex-row gap-4 items-end">
           <div className="flex-col flex gap-2 w-full">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">Name</Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">
+              Name
+            </Label>
             <Input
               type="text"
               autoComplete="off"
@@ -111,7 +174,9 @@ const EventForm = ({ searchParams }: Props) => {
             />
           </div>
           <div className="flex-col flex gap-2 w-full">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">Venue</Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">
+              Venue
+            </Label>
             <Input
               type="text"
               autoComplete="off"
@@ -120,7 +185,9 @@ const EventForm = ({ searchParams }: Props) => {
             />
           </div>
           <div className="flex-col flex gap-2 w-full">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">Who is this event For?</Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">
+              Who is this event For?
+            </Label>
             <MySelect
               options={[
                 { label: "All", value: "all" },
@@ -138,7 +205,9 @@ const EventForm = ({ searchParams }: Props) => {
           </div>
 
           <div className="flex-col flex gap-2 w-fit">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">Date & Time</Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">
+              Date & Time
+            </Label>
             <DateTimePicker
               date={event.datetime}
               setDate={(val) => setEvent({ ...event, datetime: val })}
@@ -147,8 +216,10 @@ const EventForm = ({ searchParams }: Props) => {
           </div>
 
           {event.datetime && (
-            <div className="flex-col flex gap-2 w-fit">
-              <Label className="text-xs text-gray-700 dark:text-gray-500">Final Registration Date</Label>
+            <div className="flex-col flex gap-2 w-full">
+              <Label className="text-xs text-gray-700 dark:text-gray-500">
+                Final Registration Date
+              </Label>
               <DateTimePicker
                 date={event.finalRegistrationDate}
                 setDate={(val) => {
@@ -169,19 +240,81 @@ const EventForm = ({ searchParams }: Props) => {
 
         <div className="flex flex-row gap-4 items-end">
           <div className="w-full flex-col flex gap-2">
-            <Label className="text-xs text-gray-700 dark:text-gray-500">Description</Label>
+            <Label className="text-xs text-gray-700 dark:text-gray-500">
+              Course
+            </Label>
+            {/* <ErrorLabel errorMessage={errors.courseId} /> */}
+            <Combobox
+              clearable
+              className="w-full"
+              options={
+                courses?.map((course) => ({
+                  label: course.name,
+                  value: course.id.toString(),
+                })) || []
+              }
+              value={event.courseId?.toString() || ""}
+              onSelect={(val) =>
+                setEvent({
+                  ...event,
+                  courseId: val ? parseInt(val) : null,
+                  batchId: null,
+                })
+              }
+            />
+          </div>
+
+          <div className="w-full flex-col flex gap-2">
+            <Label className="text-xs text-gray-700 dark:text-gray-500">
+              Batch
+            </Label>
+            {/* <ErrorLabel errorMessage={errors.batchId} /> */}
+            <Combobox
+              disabled={event.courseId ? false : true}
+              clearable
+              className="w-full"
+              options={
+                batches
+                  ?.filter((b) => b.courseId === event.courseId)
+                  .map((b) => ({
+                    label: `${b.course.name} (${b.year})`,
+                    value: b.id.toString(),
+                  })) || []
+              }
+              value={event.batchId?.toString() || ""}
+              onSelect={(val) =>
+                setEvent({
+                  ...event,
+                  batchId: val ? parseInt(val) : null,
+                })
+              }
+            />
+          </div>
+        </div>
+
+        <div className="flex flex-row gap-4 items-end">
+          <div className="w-full flex-col flex gap-2">
+            <Label className="text-xs text-gray-700 dark:text-gray-500">
+              Description
+            </Label>
             <Textarea
               className="h-96 resize-none"
               autoComplete="off"
               value={event.description}
-              onChange={(e) => setEvent({ ...event, description: e.target.value })}
+              onChange={(e) =>
+                setEvent({ ...event, description: e.target.value })
+              }
             />
           </div>
         </div>
       </div>
 
       <div className="flex justify-center gap-4 py-20">
-        <Button className="w-96" variant={"outline"} onClick={() => router.back()}>
+        <Button
+          className="w-96"
+          variant={"outline"}
+          onClick={() => router.back()}
+        >
           Cancel
         </Button>
         <Button className="w-96" onClick={handleSave}>

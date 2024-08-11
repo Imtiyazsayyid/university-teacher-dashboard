@@ -48,6 +48,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const AllEventsPage = () => {
+  //
   const [pagination, setPagination] = useState({
     currentPage: 1,
     itemsPerPage: 7,

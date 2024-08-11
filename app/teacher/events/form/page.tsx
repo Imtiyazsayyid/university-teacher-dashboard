@@ -6,19 +6,17 @@ import { Batch } from "@/app/interfaces/BatchInterface";
 import { Course } from "@/app/interfaces/CourseInterface";
 import { Combobox } from "@/app/my-components/Combobox";
 import { DateTimePicker } from "@/app/my-components/DateTimePicker";
-import ErrorLabel from "@/app/my-components/ErrorLabel";
 import GoBack from "@/app/my-components/GoBack";
 import { MySelect } from "@/app/my-components/MySelect";
 import TeacherServices from "@/app/Services/TeacherServices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { TicketIcon } from "lucide-react";
 import moment from "moment";
 import { useRouter, useSearchParams } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const EventForm = () => {
   const router = useRouter();
@@ -42,14 +40,7 @@ const EventForm = () => {
   });
 
   const handleSave = async () => {
-    if (
-      !event.name ||
-      !event.description ||
-      !event.datetime ||
-      !event.finalRegistrationDate ||
-      !event.batchId ||
-      !event.courseId
-    ) {
+    if (!event.name || !event.description || !event.datetime || !event.finalRegistrationDate) {
       StandardErrorToast("Could Not Create Event", "Please Enter All Details For This Event");
       return;
     }

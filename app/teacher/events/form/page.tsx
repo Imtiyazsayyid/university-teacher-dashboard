@@ -20,14 +20,20 @@ import moment from "moment";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const EventForm = () => {
+interface Props {
+  searchParams: {
+    eventId: string;
+  };
+}
+
+const EventForm = ({ searchParams }: Props) => {
   const router = useRouter();
 
   const [courses, setCourses] = useState<Course[]>();
   const [batches, setBatches] = useState<Batch[]>();
   const [eventId, setEventId] = useState("");
-  const searchParams = useSearchParams();
-  const searchParamEventId = searchParams.get("eventId");
+  // const searchParams = useSearchParams();
+  // const searchParams.eventId = searchParams.get("eventId");
 
   const [event, setEvent] = useState({
     name: "",
@@ -69,8 +75,8 @@ const EventForm = () => {
   };
 
   const getSingleEvent = async () => {
-    if (searchParamEventId) {
-      const res = await TeacherServices.getSingleEvent(searchParamEventId);
+    if (searchParams.eventId) {
+      const res = await TeacherServices.getSingleEvent(searchParams.eventId);
 
       if (res.data.status) {
         const { name, description, datetime, venue, eventFor, courseId, batchId, finalRegistrationDate } =
@@ -91,8 +97,8 @@ const EventForm = () => {
   };
 
   useEffect(() => {
-    if (searchParamEventId) {
-      setEventId(searchParamEventId);
+    if (searchParams.eventId) {
+      setEventId(searchParams.eventId);
       getSingleEvent();
     }
   }, []);

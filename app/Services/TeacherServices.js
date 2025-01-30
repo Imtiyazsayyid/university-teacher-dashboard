@@ -216,6 +216,40 @@ export default {
     return await Api().post(`/mark-event-complete/${eventId}`);
   },
 
+  // chats
+  async getTeachersList(params) {
+    return await Api().get("/chats", { params });
+  },
+
+  async createTeacherConversation(payload) {
+    return await Api().post("/conversations", payload);
+  },
+
+  async deleteTeacherConversation(conversationId) {
+    return await Api().delete(`/conversations/${conversationId}`);
+  },
+
+  async updateLastSeenOfTeacherMessage(conversationId) {
+    return await Api().patch(`/conversations/${conversationId}/seen`);
+  },
+
+  async getTeacherConversations(params) {
+    return await Api().get("/conversations", { params });
+  },
+
+  async getTeacherMessages(conversationId) {
+    return await Api().get(`/conversations/${conversationId}/messages`);
+  },
+
+  async getTeacherConversationById(conversationId) {
+    return await Api().get(`/conversations/${conversationId}`);
+  },
+  async createTeacherMessage(conversationId, payload) {
+    return await Api().post(
+      `/conversations/${conversationId}/message`,
+      payload
+    );
+  },
 };
 
 //

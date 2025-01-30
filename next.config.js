@@ -10,6 +10,10 @@ const nextConfig = {
     config.resolve.alias.canvas = false;
     return config;
   },
+  reactStrictMode: true,
+  images: {
+    domains: ["res.cloudinary.com"], // Add your Cloudinary domain here
+  },
 };
 
 module.exports = nextConfig;

@@ -13,6 +13,8 @@ import {
   SlidersHorizontalIcon,
   TicketIcon,
   UsersIcon,
+  MessageCircle,
+  MessageSquareText
 } from "lucide-react";
 
 export interface VerticalNavBarItem {
@@ -31,6 +33,29 @@ export const navBarItems: VerticalNavBarItem[] = [
     key: "teacher",
     icon: HomeIcon,
     isOpen: false,
+  },
+  {
+    route: "/teacher/chats",
+    title: "Chats",
+    key: "chat",
+    icon: MessageCircle,
+    isOpen: false,
+    subRoutes: [
+      {
+        route: "/teacher/chats",
+        isOpen: false,
+        key: "users",
+        icon: UsersIcon,
+        title: "Teachers",
+      },
+      {
+        route: "/teacher/conversations",
+        isOpen: false,
+        key: "conversations",
+        icon: MessageSquareText,
+        title: "Conversations",
+      },
+    ],
   },
   {
     route: "/teacher/courses",

@@ -1,4 +1,6 @@
 import { TeacherRole } from "./TeacherRoleInterface";
+import { TeacherMessage } from "./ChatInterface";
+import { TeacherConversation } from "./ChatInterface";
 
 export type Teacher = {
   id: number;
@@ -23,6 +25,11 @@ export type Teacher = {
   certificationCourses: string | null;
   booksOrChapter: string | null;
   professionalMemberships: string | null;
+
+  conversations: TeacherConversation[]; // List of conversations the teacher is part of
+  seenMessages: TeacherMessage[]; // Messages seen by the teacher
+  messages: TeacherMessage[];
+
   status: boolean;
   created_at: Date;
   updated_at: Date;

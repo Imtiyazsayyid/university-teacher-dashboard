@@ -7,6 +7,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Provider } from "jotai";
 import store from "./store/Store";
 import { Suspense } from "react";
+import ActiveStatus from "./teacher/chats/components/ActiveStatus";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,6 +26,7 @@ export default function RootLayout({
       <body className={cn("min-h-screen h-screen bg-background font-sans antialiased", inter.className)}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
           <Provider store={store}>
+            <ActiveStatus />
             <Suspense>{children}</Suspense>
           </Provider>
         </ThemeProvider>

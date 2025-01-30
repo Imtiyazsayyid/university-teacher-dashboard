@@ -156,6 +156,30 @@ const studentDocumentSchema = z.object({
     .max(55, "Student Document Name is too long"),
 });
 
+const teacherConversationSchema = z.object({
+  name: z
+    .string()
+    .nullable()
+    .optional(), // Name is optional and can be nullable
+  isGroup: z.boolean().optional(), // isGroup is optional
+  created_at: z.date().optional().default(new Date()), // Defaults to `now()`
+  updated_at: z.date().optional().default(new Date()), // Defaults to `now()`
+  lastMessageAt: z.date().optional().default(new Date()), // Defaults to `now()`
+});
+
+const teacherMessageSchema = z.object({
+  body: z.string().nullable().optional(), // Body is optional and can be nullable
+  image: z.string().url().nullable().optional(), // Image is optional, must be a valid URL
+  file: z.string().url().nullable().optional(), // File is optional, must be a valid URL
+
+  conversationId: z.number().int().min(1, "conversationId must be a positive integer"),
+  senderId: z.number().int().min(1, "senderId must be a positive integer"),
+
+  created_at: z.date().optional().default(new Date()), // Defaults to `now()`
+  updated_at: z.date().optional().default(new Date()), // Defaults to `now()`
+});
+
+
 export {
   loginSchema,
   courseSchema,
@@ -170,4 +194,6 @@ export {
   studentSchema,
   teacherRoleSchema,
   studentDocumentSchema,
+  teacherConversationSchema,
+  teacherMessageSchema
 };

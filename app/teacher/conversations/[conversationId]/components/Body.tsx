@@ -28,11 +28,11 @@ const Body = ({ initialMessages }: Props) => {
     updateLastSeenOfMessage();
   }, [conversationId, initialMessages]);
 
-  if (conversationId == null) return null;
-
   useEffect(() => {
     setMessages(initialMessages);
   }, [initialMessages]);
+
+  if (conversationId == null) return null;
 
   return (
     <div className="dark:bg-[#1a1a1a] flex-1 overflow-y-auto">

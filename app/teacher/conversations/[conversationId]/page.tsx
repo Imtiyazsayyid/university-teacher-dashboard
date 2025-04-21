@@ -27,6 +27,10 @@ const ConversationIdPage = ({ params }: Props) => {
   >(null);
   const [messages, setMessages] = useState<FullMessageType[] | []>([]);
 
+  const [lastMessageId, setLastMessageId] = useState<number | null>(
+    messages.length > 0 ? messages[messages.length - 1].id : null
+  );
+
   const getConversationById = async () => {
     try {
       const res = await TeacherServices.getTeacherConversationById(
@@ -41,6 +45,11 @@ const ConversationIdPage = ({ params }: Props) => {
       const { conversation, messages } = res.data.data;
       setConversation(conversation);
       setMessages(messages);
+
+      // Update lastMessageId if messages are fetched
+      if (messages.length > 0) {
+        setLastMessageId(messages[messages.length - 1].id);
+      }
     } catch (error) {
       console.log("Error fetching conversation By id", error);
     }
@@ -50,23 +59,46 @@ const ConversationIdPage = ({ params }: Props) => {
     getConversationById();
   }, []);
 
-  // Polling logic
-  // useEffect(() => {
-  //   if (!params.conversationId) {
-  //     console.warn("Conversation ID is missing for polling");
-  //     return;
-  //   }
+  const pollNewMessages = async () => {
+    try {
+      console.log("Polling with lastMessageId: ", lastMessageId);
+      const res = await TeacherServices.getNewTeacherMessages(
+        params.conversationId,
+        lastMessageId
+      );
 
-  //   const interval = setInterval(() => {
-  //     console.log("Polling for updates...");
-  //     getConversationById();
-  //   }, 200); // Poll every 200ms
+      if (!res.data?.status) return;
 
-  //   return () => {
-  //     clearInterval(interval); // Cleanup on unmount
-  //     console.log("Stopped polling");
-  //   };
-  // }, [params.conversationId]);
+      const newMessage: FullMessageType | null = res.data.data || null;
+
+      console.log("Received messages: ", newMessage);
+
+      if (newMessage) {
+        if (newMessage) {
+          setMessages((prev) => {
+            // Prevent duplicate message appending
+            const alreadyExists = prev.some((msg) => msg.id === newMessage.id);
+            if (alreadyExists) return prev;
+            return [...prev, newMessage];
+          });
+
+          setLastMessageId(newMessage.id);
+        }
+      }
+    } catch (error) {
+      console.error("Polling error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!params.conversationId) return;
+
+    const interval = setInterval(() => {
+      pollNewMessages();
+    }, 2000); // every 2 seconds
+
+    return () => clearInterval(interval);
+  }, [params.conversationId, lastMessageId]);
 
   if (!conversation) {
     return (
@@ -90,6 +122,3 @@ const ConversationIdPage = ({ params }: Props) => {
 };
 
 export default ConversationIdPage;
-
-
-

@@ -142,7 +142,7 @@ const CoursesPage = () => {
 
       <MyPagination show={!loading} itemCount={coursesCount} pagination={pagination} setPagination={setPagination} />
     </div>
-  );
+  )
 };
 
 export default CoursesPage;

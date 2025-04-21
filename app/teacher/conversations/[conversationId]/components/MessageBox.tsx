@@ -33,10 +33,7 @@ const MessageBox = ({ message, isLastMessage }: Props) => {
     .join(", ");
 
   // following are some dynamic classes
-  const container = clsx(
-    "flex gap-3 p-4",
-    isOwn && "justify-end"
-  );
+  const container = clsx("flex gap-3 p-4", isOwn && "justify-end");
 
   const avatar = clsx(isOwn && "order-2");
 

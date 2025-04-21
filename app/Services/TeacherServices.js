@@ -237,6 +237,14 @@ export default {
     return await Api().get("/conversations", { params });
   },
 
+  // for polling
+  async getNewTeacherMessages(conversationId, payload) {
+    return await Api().get(
+      `/conversations/${conversationId}/messages`,
+      payload
+    );
+  },
+
   async getTeacherMessages(conversationId) {
     return await Api().get(`/conversations/${conversationId}/messages`);
   },

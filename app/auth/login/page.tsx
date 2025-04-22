@@ -9,7 +9,8 @@ import TeacherServices from "../../Services/TeacherServices";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { GraduationCapIcon } from "lucide-react";
+import { AlertCircleIcon, GraduationCapIcon } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
 const LoginPage = () => {
   const [userDetails, setUserDetails] = useState({
@@ -51,7 +52,9 @@ const LoginPage = () => {
     if (res.data.status) {
       const refreshToken = res.data.data;
 
-      const accessTokenResponse = await TeacherServices.getAccessToken(refreshToken);
+      const accessTokenResponse = await TeacherServices.getAccessToken(
+        refreshToken
+      );
 
       console.log({ accessTokenResponse });
 
@@ -61,6 +64,13 @@ const LoginPage = () => {
       TokenService.saveAccessToken(accessTokenResponse.data.data);
       router.push("/teacher");
     } else {
+      toast({
+        title: "Uh oh! Something went Wrong",
+        description: "Invalid credentials provided.",
+        variant: "destructive",
+        action: <AlertCircleIcon className="text-red-500" />,
+      });
+
       setErrors({
         email: "",
         password: "",
@@ -84,8 +94,12 @@ const LoginPage = () => {
               <GraduationCapIcon size={50} />
             </div>
             <div className="flex flex-col space-y-2 text-center">
-              <h1 className="text-2xl font-semibold tracking-tight">Welcome Back</h1>
-              <p className="text-sm text-muted-foreground">Enter your email and password to continue.</p>
+              <h1 className="text-2xl font-semibold tracking-tight">
+                Welcome Back
+              </h1>
+              <p className="text-sm text-muted-foreground">
+                Enter your email and password to continue.
+              </p>
             </div>
             <div>
               <div className="grid gap-2">
@@ -100,7 +114,9 @@ const LoginPage = () => {
                     autoCapitalize="none"
                     autoComplete="email"
                     autoCorrect="off"
-                    onChange={(e) => setUserDetails({ ...userDetails, email: e.target.value })}
+                    onChange={(e) =>
+                      setUserDetails({ ...userDetails, email: e.target.value })
+                    }
                   />
                 </div>
                 <div className="grid gap-1">
@@ -113,7 +129,12 @@ const LoginPage = () => {
                     type="password"
                     autoCapitalize="none"
                     autoCorrect="off"
-                    onChange={(e) => setUserDetails({ ...userDetails, password: e.target.value })}
+                    onChange={(e) =>
+                      setUserDetails({
+                        ...userDetails,
+                        password: e.target.value,
+                      })
+                    }
                   />
                 </div>
                 <Button onClick={handleSubmit}>Sign In</Button>
